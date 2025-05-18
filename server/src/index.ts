@@ -56,4 +56,8 @@ wss.on("connection", (ws) => {
     ws.send(JSON.stringify({ data: latestData, lastUpdated}));
 });
 
-server.listen(3001, () => console.log("Server on http://localhost:3001"));
+const port = process.env.PORT || 3001;
+server.listen(port, () =>   console.log(`Server running on port ${port}`));
+
+
+// server.listen(3001, () => console.log("Server on http://localhost:3001"));

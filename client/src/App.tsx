@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { useWebSocketData } from "./hooks/useWebSocketData";
 import RegionCard from "./components/RegionCard";
