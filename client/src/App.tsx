@@ -5,7 +5,7 @@ import RegionCard from "./components/RegionCard";
 
 function App() {
   const { data, lastUpdated, wsError } = useWebSocketData(
-    "ws://localhost:3001"
+    "wss://devops-dashboard-ykfd.onrender.com"
   );
 
   if (!data || typeof data !== "object") {
