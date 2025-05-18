@@ -16,6 +16,7 @@ const regions = [
 ];
 
 let latestData: any = {};
+let lastUpdated: string = "";
 
 async function fetchData() {
     const newData: any = {};
@@ -33,16 +34,17 @@ async function fetchData() {
     );
   
     latestData = newData;
+    lastUpdated = new Date().toISOString();
   
     wss.clients.forEach((client) => {
-      client.send(JSON.stringify({ data: latestData }));
+      client.send(JSON.stringify({ data: latestData, lastUpdated }));
     });
 }
 
 setInterval(fetchData, 15000);
 
 wss.on("connection", (ws) => {
-    ws.send(JSON.stringify({ data: latestData}));
+    ws.send(JSON.stringify({ data: latestData, lastUpdated}));
 });
 
 server.listen(3001, () => console.log("Server on http://localhost:3001"));

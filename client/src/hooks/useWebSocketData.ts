@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export function useWebSocketData(url: string) {
   const [data, setData] = useState<Record<string, any> | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [wsError, setWsError] = useState<boolean>(false);
 
   useEffect(() => {
@@ -15,6 +16,7 @@ export function useWebSocketData(url: string) {
       try {
         const parsed = JSON.parse(event.data);
         setData(parsed.data);
+        setLastUpdated(parsed.lastUpdated);
       } catch (err) {
         setWsError(true);
       }
@@ -31,5 +33,5 @@ export function useWebSocketData(url: string) {
     return () => ws.close();
   }, [url]);
 
-  return { data, wsError };
+  return { data, lastUpdated, wsError };
 }

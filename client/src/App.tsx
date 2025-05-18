@@ -4,7 +4,9 @@ import "./App.css";
 import { useWebSocketData } from "./hooks/useWebSocketData";
 
 function App() {
-  const { data, wsError } = useWebSocketData("ws://localhost:3001");
+  const { data, lastUpdated, wsError } = useWebSocketData(
+    "ws://localhost:3001"
+  );
 
   if (!data || typeof data !== "object") {
     return <div>Loading data from server...</div>;
@@ -21,6 +23,11 @@ function App() {
             the backend is running.
           </p>
         )}
+
+        <p style={{ fontStyle: "italic", fontSize: "0.9rem" }}>
+          Last updated:{" "}
+          {lastUpdated ? new Date(lastUpdated).toLocaleString() : "—"}
+        </p>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
           {Object.entries(data).map(([region, status]) => {
