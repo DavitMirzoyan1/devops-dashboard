@@ -23,12 +23,21 @@ async function fetchData() {
   
     await Promise.all(
       regions.map(async (region) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+
         try {
-          const res = await fetch(`https://data--${region}.upscope.io/status?stats=1`);
-          const data = await res.json();
-          newData[region] = data;
+            const res = await fetch(`https://data--${region}.upscope.io/status?stats=1`, {
+                signal: controller.signal,
+            });
+            clearTimeout(timeout);
+            
+            const data = await res.json();
+            newData[region] = data;
         } catch {
           newData[region] = { error: true, message: "Failed to fetch" };
+        }finally {
+            clearTimeout(timeout);
         }
       })
     );
