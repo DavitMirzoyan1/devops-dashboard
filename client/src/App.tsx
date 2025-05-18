@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { useWebSocketData } from "./hooks/useWebSocketData";
+import RegionCard from "./components/RegionCard";
 
 function App() {
   const { data, lastUpdated, wsError } = useWebSocketData(
@@ -30,9 +31,9 @@ function App() {
         </p>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-          {Object.entries(data).map(([region, status]) => {
-            return <div key={region}>{region.toLocaleUpperCase()}</div>;
-          })}
+          {Object.entries(data).map(([region, status]) => (
+            <RegionCard key={region} region={region} status={status} />
+          ))}
         </div>
       </div>
     </div>
